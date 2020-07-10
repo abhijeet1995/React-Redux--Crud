@@ -1,0 +1,16 @@
+{
+  "name": "08-express-employee-portal-mongodb",
+  "version": "1.0.0",
+  "description": "Employee Portal backend server with mongodb",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "author": "NAVEEN SAGGAM",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mongoose": "^5.9.20"
+  }
+}
