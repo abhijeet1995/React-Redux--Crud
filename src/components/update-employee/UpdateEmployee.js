@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {getAnEmployee, updateEmployee, updateEmployeeForm} from "../../redux/employee/employeeActions";
 import PopUp from '../common/Popup'
 let UpdateEmployee = () => {
+    const [open, setOpen] = useState(false);
     let history = useHistory();
     let {id} = useParams();
     let dispatch = useDispatch();
@@ -28,10 +29,13 @@ let UpdateEmployee = () => {
     let alert = useSelector((store) => {
         return store.alert
     });
-
+    const handleClose = () => {
+        setOpen(false);
+    };
+    
     return(
         <Fragment>
-            <PopUp type={alert.type} message={alert.message} open={alert.open} onClose={alert.handleClose} />
+            <PopUp type={alert.type} message={alert.message} open={alert.open} close={handleClose} />
           {/*  <pre>{JSON.stringify(employeeInfo)}</pre>*/}
             <div className="container mt-3">
                 <div className="row">
@@ -68,16 +72,12 @@ let UpdateEmployee = () => {
                                             type="email" className="form-control" placeholder="Email"/>
                                     </div>
                                     <div className="form-group">
-                                        <select
+                                        <input
                                             required
                                             name="gender"
                                             value={employeeInfo.employee.gender}
                                             onChange={changeInput}
-                                            className="form-control">
-                                            <option value="">Select Gender</option>
-                                            <option value="Male">Male</option>
-                                            <option value="Female">Female</option>
-                                        </select>
+                                            type="text" className="form-control" placeholder="Gender" />
                                     </div>
                                     <div className="form-group">
                                         <input

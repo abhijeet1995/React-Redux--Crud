@@ -9,7 +9,8 @@ import {
     GET_EMPLOYEE_REQUEST,
     GET_EMPLOYEE_SUCCESS, UPDATE_EMPLOYEE_FAILURE,
     UPDATE_EMPLOYEE_FORM,
-    UPDATE_EMPLOYEE_REQUEST, UPDATE_EMPLOYEE_SUCCESS
+    UPDATE_EMPLOYEE_REQUEST, UPDATE_EMPLOYEE_SUCCESS,
+    RESET_FORM
 } from "./employeeActionTypes";
 
 let initialState = {
@@ -54,14 +55,26 @@ let employeeReducer = (state = initialState , action) => {
                 ...state,
                 loading: false,
                 employees: [],
-                 employee : {},
+                employee : {},
                 errorMessage : payload
             };
         case CREATE_EMPLOYEE_SUCCESS:
+            return{
+                ...state,
+                employees: [...state.employees, payload],
+                loading:false,
+                isSubmitted:true
+            }
+        case RESET_FORM:
+            //alert("I am reset")
+            return{
+                ...state,
+                employees:[]
+            }    
         case UPDATE_EMPLOYEE_SUCCESS:
             return {
                 ...state,
-                employees: [action.payload, ...state.employees],
+                employees:payload,
                 loading: false,
                 isSubmitted: true
             };

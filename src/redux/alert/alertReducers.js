@@ -5,7 +5,7 @@ const initialState = {
 	type: "",
 	message: "",
 	open: false,
-	openType: 0
+	onClose:true
 }
 
 let alertReducers = (state = initialState, action)=> {
@@ -14,20 +14,15 @@ let alertReducers = (state = initialState, action)=> {
 		case SHOW_ALERT:
 			return {
 				...state,
-				...payload
-			};
-		case REDIRECT:
-			return {
-				...state,
 				...payload,
-				open: false
+				onClose: false
 			};
-		case REMOVE_ALERT:
+		case REMOVE_ALERT:	
 			return {
 				type: "",
 				message: "",
 				open: false,
-				openType: 0
+				
 			}
 		default:
 			return state;

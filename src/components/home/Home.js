@@ -3,6 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {deleteEmployee, getAllEmployees} from "../../redux/employee/employeeActions";
 import Spinner from "../spinner/Spinner";
 import {Link} from "react-router-dom";
+import AddEmployee from "../add-employee/AddEmployee";
 
 let Home = () => {
     let dispatch = useDispatch();
@@ -24,13 +25,14 @@ let Home = () => {
 
     return(
         <Fragment>
-           {/* <pre>{JSON.stringify(employeeInfo)}</pre>*/}
+           {/* <pre>{JSON.stringify(employeeInfo)}</pre> */}
             <div className="container mt-3">
                 <div className="row">
                     <div className="col">
                         <h1>Employee Portal</h1>
                         <p className="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet atque corporis fugiat illum minus necessitatibus omnis optio rem, sed soluta, ut veritatis. Amet cupiditate iure minima repudiandae tempora? Enim, ex!</p>
-                        <Link to="/add-employee" className="btn btn-success btn-sm">Add Employee</Link>
+                        {/* <Link to="/add-employee" className="btn btn-success btn-sm">Add Employee</Link> */}
+                        <AddEmployee/>
                     </div>
                 </div>
             </div>

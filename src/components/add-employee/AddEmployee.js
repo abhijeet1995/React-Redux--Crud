@@ -1,9 +1,42 @@
 import React, { Fragment, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createEmployee } from "../../redux/employee/employeeActions";
+import { createEmployee, getAllEmployees } from "../../redux/employee/employeeActions";
 import { useHistory } from 'react-router-dom';
 import PopUp from '../common/Popup'
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import { makeStyles } from '@material-ui/core/styles';
+import { OutlinedInput} from '@material-ui/core'
+const useStyles = makeStyles((theme) => ({
+    '@global': {
+        // You should target [class*="MuiButton-root"] instead if you nest themes.
+        '.MuiFormControl-marginDense': {
+         marginTop: "-2px"
+        },
+        '.MuiDialogContent-root': {
+             padding: "8px 41px",
+            margin:"auto",
+            width:"100%"
+            
+        }
+    },
+    root: {
+        '& .MuiTextField-root': {
+            margin: theme.spacing(1),
+            width: '55ch',
+        },
+    },
+
+}));
+
+
 let AddEmployee = () => {
+    const classes = useStyles();
+    const [open, setOpen] = React.useState(false);
     let history = useHistory();
     let dispatch = useDispatch();
 
@@ -21,12 +54,12 @@ let AddEmployee = () => {
     let alert = useSelector((store) => {
         return store.alert
     });
-    console.log("hi i am alert", alert)
 
-
+  
+   
     let changeInput = (e) => {
-        setCheked(!checked)
-        buttonElem.current.disabled = checked
+        // setCheked(!checked)
+        // buttonElem.current.disabled = checked
         setEmployee({
             ...employee,
             [e.target.name]: e.target.value
@@ -35,77 +68,128 @@ let AddEmployee = () => {
 
     let submitAddEmployee = (e) => {
         e.preventDefault();
-        dispatch(createEmployee(employee, history));
+        dispatch(createEmployee(employee, history))
+        // .then(res=>{
+        //     alert("success")
+        // })
+        // .catch(err=>{
+        //     alert("err",err)
+        // });
+        //setOpen(false)
+
+    };
+
+    const resetForm = () => {
+        setEmployee({...employee,first_name:""})
+
+    }
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
     };
 
     return (
         <Fragment>
             <PopUp type={alert.type} message={alert.message} open={alert.open} onClose={alert.handleClose} />
             {/* <pre>{JSON.stringify(employee)}</pre>*/}
-            <div className="container mt-3">
-                <div className="row">
-                    <div className="col-md-5">
-                        <div className="card">
-                            <div className="card-header bg-success text-white">
-                                <h3>Add Employee</h3>
-                            </div>
-                            <div className="card-body bg-light">
-                                <form onSubmit={submitAddEmployee}>
-                                    <div className="form-group">
-                                        <input
-                                            required
-                                            name="first_name"
-                                            value={employee.first_name}
-                                            onChange={changeInput}
-                                            type="text"
-                                            className="form-control" placeholder="First Name" />
-                                    </div>
-                                    <div className="form-group">
-                                        <input
-                                            required
-                                            name="last_name"
-                                            value={employee.last_name}
-                                            onChange={changeInput}
-                                            type="text" className="form-control" placeholder="Last Name" />
-                                    </div>
-                                    <div className="form-group">
-                                        <input
-                                            required
-                                            name="email"
-                                            value={employee.email}
-                                            onChange={changeInput}
-                                            type="email" className="form-control" placeholder="Email" />
-                                    </div>
-                                    <div className="form-group">
-                                        <select
-                                            required
-                                            name="gender"
-                                            value={employee.gender}
-                                            onChange={changeInput}
-                                            className="form-control">
-                                            <option value="">Select Gender</option>
-                                            <option value="Male">Male</option>
-                                            <option value="Female">Female</option>
-                                        </select>
-                                    </div>
-                                    <div className="form-group">
-                                        <input
-                                            required
-                                            name="mobile"
-                                            value={employee.mobile}
-                                            onChange={changeInput}
-
-                                            type="text" className="form-control" placeholder=" mobile" />
-                                    </div>
-                                    <div className="form-group">
-                                        <input ref={buttonElem} type="submit" className="btn btn-success btn-sm" value="Add Employee" disabled />
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
+            <form>
+                <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+                    Add Employee
+                </Button>
+                <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+                    <DialogTitle id="form-dialog-title" style={{textAlign:"center"}}>Add Employee</DialogTitle>
+                    <DialogContent>
+                        <TextField
+                            style={{ marginBottom: 20 }}
+                            id="outlined-helperText"
+                            label="First Name"
+                            variant="outlined"
+                            labelWidth={0}
+                            name="email"
+                            margin="dense"
+                            name="first_name"
+                            value={employee.first_name}
+                            onChange={changeInput}
+                            fullWidth
+                        />
+                    </DialogContent>
+                    <DialogContent>
+                        <TextField
+                            style={{ marginBottom: 20 }}
+                            id="outlined-helperText"
+                            label="Last Name"
+                            variant="outlined"
+                            labelWidth={0}
+                            name="last_name"
+                            margin="dense"
+                            value={employee.last_name}
+                            onChange={changeInput}
+                            fullWidth
+                            
+                        />
+                    </DialogContent>
+                    <DialogContent>
+                        <TextField
+                            style={{ marginBottom: 20 }}
+                            id="outlined-helperText"
+                            label="Email"
+                            variant="outlined"
+                            margin="dense"
+                            name="email"
+                            value={employee.email}
+                            onChange={changeInput}
+                            fullWidth
+                           
+                        />
+                    </DialogContent>
+                    <DialogContent>
+                        <TextField
+                            style={{ marginBottom: 20 }}
+                            id="outlined-helperText"
+                            label="Mobile No"
+                            variant="outlined"
+                            labelWidth={0}
+                            margin="dense"
+                            name="mobile"
+                            value={employee.mobile}
+                            onChange={changeInput}
+                            fullWidth
+                            
+                        />
+                    </DialogContent>
+                    <DialogContent>
+                        <TextField
+                            style={{ marginBottom: 10}}
+                            id="outlined-helperText"
+                            label="Gender"
+                            variant="outlined"
+                            labelWidth={0}
+                            name="email"
+                            margin="dense"
+                            name="gender"
+                            value={employee.gender}
+                            onChange={changeInput}
+                            fullWidth
+                           
+                        />
+                    </DialogContent>
+                    <div style={{paddingRight:"50px"}}>
+                    <DialogActions>
+                        <Button onClick={handleClose} style={{ backgroundColor:"#f44336",color:"white"}}>
+                            Cancel
+                        </Button>
+                        <Button onClick={submitAddEmployee} style={{ backgroundColor:"#f44336",color:"white"}}>
+                            Submit
+                        </Button>
+                    </DialogActions>
                     </div>
-                </div>
-            </div>
+                </Dialog>
+            </form>
+
         </Fragment>
     );
 };

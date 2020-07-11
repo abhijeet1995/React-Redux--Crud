@@ -61,9 +61,10 @@ router.post('/employees', async (request , response) => {
             gender,
             mobile
         });
-        await emp.save();
+        await emp.save()
         response.json({
-            message: "Done"
+            message: "Done",
+            emp
         })
 
     }

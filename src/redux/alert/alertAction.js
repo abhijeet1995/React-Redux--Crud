@@ -1,6 +1,6 @@
 import { SHOW_ALERT, REMOVE_ALERT } from './alertType'
 
-export const setAlert = (data, typeRes, onClose, timeout = 5000) => dispatch => {
+export const setAlert = (data, typeRes,   timeout = 2000) => dispatch => {
 
     dispatch({
         type: SHOW_ALERT,
@@ -8,7 +8,7 @@ export const setAlert = (data, typeRes, onClose, timeout = 5000) => dispatch => 
             message: data,
             type: typeRes,
             open: true,
-            onClose: onClose ? onClose : false,
+            onClose: false
             // openType: openType ? openType : 0,
             // cancelButton: cancelButton ? cancelButton : false,
             // cancelButton: cancelButton ? cancelButton : false

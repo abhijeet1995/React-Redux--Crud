@@ -8,8 +8,8 @@ import CloseIcon from '@material-ui/icons/Close'
 import { makeStyles } from '@material-ui/core/styles';
 
 
-export default function PopUp({ message, type, open, close,onClose, key }) {
-
+export default function PopUp({ message, type, open, close, onClose }) {
+	
 
 	const color = {
 		success: "#03C58D",
@@ -31,10 +31,9 @@ export default function PopUp({ message, type, open, close,onClose, key }) {
 			<Snackbar
 				className={classes.root}
 				anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-				key={key}
 				open={open}
-				onClose={close}
 				message={message}
+				onClose={close}
 				action={
 					<React.Fragment>
 						<IconButton

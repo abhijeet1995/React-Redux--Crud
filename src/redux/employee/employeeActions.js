@@ -10,7 +10,8 @@ import {
     GET_EMPLOYEE_REQUEST,
     GET_EMPLOYEE_SUCCESS, UPDATE_EMPLOYEE_FAILURE,
     UPDATE_EMPLOYEE_FORM,
-    UPDATE_EMPLOYEE_REQUEST, UPDATE_EMPLOYEE_SUCCESS
+    UPDATE_EMPLOYEE_REQUEST, UPDATE_EMPLOYEE_SUCCESS,
+    RESET_FORM
 } from "./employeeActionTypes";
 import {setAlert} from '../alert/alertAction'
 // GET All Employee
@@ -42,25 +43,17 @@ let createEmployee = (employee,history) => {
             let response = await Axios.post(`http://localhost:8000/api/employees`, employee);
             dispatch({
                 type : CREATE_EMPLOYEE_SUCCESS,
-                payload : response.data
+                payload : response.data.emp
             });
-          
                dispatch(setAlert("Add Empolyee", "success"))
-          
-           
-            setTimeout(() => {
-                 history.push('/'); // got to home page once success
-            }, 2000)
+            //    dispatch({
+            //        type:RESET_FORM,
+            //        payload: response.data.emp
+            //    })
+            
         }
         catch (err) {
-            dispatch({
-                type : CREATE_EMPLOYEE_FAILURE,
-                payload : err.response
-            });
-            
                 dispatch(setAlert(err.response.data.error, "error"))
-            
-           
         }
     };
 };
@@ -102,7 +95,7 @@ let updateEmployee = (id , employee , history) => {
             let response = await Axios.put(`http://localhost:8000/api/employees/${id}`, employee);
             dispatch({
                 type : UPDATE_EMPLOYEE_SUCCESS,
-                payload : response.data
+                payload :response.data
             });
             dispatch(setAlert("Updated succesfully", "success"))
             setTimeout(() => {
