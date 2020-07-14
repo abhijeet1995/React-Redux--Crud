@@ -45,7 +45,19 @@ router.post('/employees', async (request , response) => {
             error: "All field required"
         })
     }
+    if (mobile.length < 10 || mobile.length >10) {
+        return response.status(400).json({
+            error: "Mobile no 10 digits only"
+        })
+    }
+    var phoneno = /^\d{10}$/;
+    if(!mobile.match(phoneno)){
+        return response.status(400).json({
+            error: "Only Digit allow"
+        })
+    }
 
+    
     try {
         let emp = await Employee.findOne({ email });
         if (emp) {

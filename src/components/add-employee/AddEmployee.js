@@ -34,16 +34,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-let AddEmployee = () => {
+const AddEmployee = () => {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
-    let history = useHistory();
-    let dispatch = useDispatch();
+    const history = useHistory();
+    const dispatch = useDispatch();
 
-    let buttonElem = useRef(null)
-    let [checked, setCheked] = useState(false)
-
-    let [employee, setEmployee] = useState({
+    const buttonElem = useRef(null)
+    const [checked, setCheked] = useState(false)
+    const [data,setData] = useState('')
+    const employeeDummy = useSelector(state=>state.employee)
+    console.log("data",employeeDummy)
+    const [employee, setEmployee] = useState({
         first_name: '',
         last_name: '',
         email: '',
@@ -51,13 +53,21 @@ let AddEmployee = () => {
         mobile: ''
     });
 
-    let alert = useSelector((store) => {
+
+    //Clear the state
+    const clearState = () => {
+      setEmployee('')
+        
+    }
+
+
+    const alert = useSelector((store) => {
         return store.alert
     });
 
   
    
-    let changeInput = (e) => {
+    const changeInput = (e) => {
         // setCheked(!checked)
         // buttonElem.current.disabled = checked
         setEmployee({
@@ -66,23 +76,21 @@ let AddEmployee = () => {
         });
     };
 
-    let submitAddEmployee = (e) => {
+    
+    const submitAddEmployee = async (e) => {
         e.preventDefault();
-        dispatch(createEmployee(employee, history))
-        // .then(res=>{
-        //     alert("success")
-        // })
-        // .catch(err=>{
-        //     alert("err",err)
-        // });
-        //setOpen(false)
-
-    };
-
-    const resetForm = () => {
-        setEmployee({...employee,first_name:""})
-
+        try {
+          await  dispatch(createEmployee(employee))
+          if(employeeDummy.loading == 400){
+              setOpen(false)
+              clearState('')
+          }
+        } catch (error) {
+            setOpen(true)
+        }
     }
+
+ 
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -95,8 +103,8 @@ let AddEmployee = () => {
     return (
         <Fragment>
             <PopUp type={alert.type} message={alert.message} open={alert.open} onClose={alert.handleClose} />
-            {/* <pre>{JSON.stringify(employee)}</pre>*/}
-            <form>
+            
+            <form >
                 <Button variant="outlined" color="primary" onClick={handleClickOpen}>
                     Add Employee
                 </Button>
@@ -182,7 +190,7 @@ let AddEmployee = () => {
                         <Button onClick={handleClose} style={{ backgroundColor:"#f44336",color:"white"}}>
                             Cancel
                         </Button>
-                        <Button onClick={submitAddEmployee} style={{ backgroundColor:"#f44336",color:"white"}}>
+                        <Button onClick={(e)=>submitAddEmployee(e)} style={{ backgroundColor:"#f44336",color:"white"}}>
                             Submit
                         </Button>
                     </DialogActions>

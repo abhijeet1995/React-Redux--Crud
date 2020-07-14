@@ -36,7 +36,7 @@ let UpdateEmployee = () => {
     return(
         <Fragment>
             <PopUp type={alert.type} message={alert.message} open={alert.open} close={handleClose} />
-          {/*  <pre>{JSON.stringify(employeeInfo)}</pre>*/}
+          
             <div className="container mt-3">
                 <div className="row">
                     <div className="col-md-5">

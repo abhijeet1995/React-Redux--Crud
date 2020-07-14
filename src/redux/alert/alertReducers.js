@@ -15,12 +15,13 @@ let alertReducers = (state = initialState, action)=> {
 			return {
 				...state,
 				...payload,
-				onClose: false
+				
 			};
 		case REMOVE_ALERT:	
 			return {
 				type: "",
 				message: "",
+				onClose:false,
 				open: false,
 				
 			}

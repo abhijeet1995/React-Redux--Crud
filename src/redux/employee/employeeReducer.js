@@ -15,6 +15,7 @@ import {
 
 let initialState = {
     loading : false,
+    check:false,
     employees : [],
     employee : {},
     isSubmitted : false,
@@ -63,7 +64,8 @@ let employeeReducer = (state = initialState , action) => {
                 ...state,
                 employees: [...state.employees, payload],
                 loading:false,
-                isSubmitted:true
+                isSubmitted:true,
+                check:true
             }
         case RESET_FORM:
             //alert("I am reset")

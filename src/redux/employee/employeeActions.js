@@ -36,27 +36,53 @@ let getAllEmployees = () => {
 };
 
 // CREATE an Employee
-let createEmployee = (employee,history) => {
+// let createEmployee = (employee,history) => {
+//     return async (dispatch) => {
+//         try{
+//             dispatch({type : CREATE_EMPLOYEE_REQUEST});
+//             let response = await Axios.post(`http://localhost:8000/api/employees`, employee);
+//             dispatch({
+//                 type : CREATE_EMPLOYEE_SUCCESS,
+//                 payload : response.data.emp
+//             });
+//                dispatch(setAlert("Add Empolyee", "success"))
+//             //    dispatch({
+//             //        type:RESET_FORM,
+//             //        payload: response.data.emp
+//             //    })
+            
+//         }
+//         catch (err) {
+//                 dispatch(setAlert(err.response.data.error, "error"))
+//         }
+//     };
+// };
+
+let createEmployee = (employee, history) => {
     return async (dispatch) => {
-        try{
-            dispatch({type : CREATE_EMPLOYEE_REQUEST});
-            let response = await Axios.post(`http://localhost:8000/api/employees`, employee);
-            dispatch({
-                type : CREATE_EMPLOYEE_SUCCESS,
-                payload : response.data.emp
-            });
-               dispatch(setAlert("Add Empolyee", "success"))
+            dispatch({ type: CREATE_EMPLOYEE_REQUEST });
+         Axios.post(`http://localhost:8000/api/employees`, employee).then((response)=>{
+            // console.log(res)
+             dispatch({
+                 type: CREATE_EMPLOYEE_SUCCESS,
+                 payload: response.data.emp
+             });
+             dispatch(setAlert("Add Empolyee", "success"))
+         }).catch((err)=>{
+             dispatch(setAlert(err.response.data.error, "error"))
+         })
+            
+            
             //    dispatch({
             //        type:RESET_FORM,
             //        payload: response.data.emp
             //    })
-            
-        }
-        catch (err) {
-                dispatch(setAlert(err.response.data.error, "error"))
-        }
+
+        
+        
     };
 };
+
 
 // GET an Employee
 let getAnEmployee = (id) => {
@@ -98,9 +124,7 @@ let updateEmployee = (id , employee , history) => {
                 payload :response.data
             });
             dispatch(setAlert("Updated succesfully", "success"))
-            setTimeout(() => {
-                history.push('/'); // got to home page once success
-            }, 2000)
+           
         }
         catch (err) {
             dispatch({
@@ -111,26 +135,6 @@ let updateEmployee = (id , employee , history) => {
         }
     };
 };
-
-// deleteEmployee
-// let deleteEmployee = (id) => {
-//     return async (dispatch) => {
-//         try{
-//             dispatch({type : DELETE_EMPLOYEE_REQUEST});
-//             await Axios.delete(`http://localhost:8000/api/employees/${id}`);
-//             dispatch({
-//                 type : DELETE_EMPLOYEE_SUCCESS,
-//                 payload : id
-//             });
-//         }
-//         catch (err) {
-//             dispatch({
-//                 type : DELETE_EMPLOYEE_FAILURE,
-//                 payload : err.response
-//             });
-//         }
-//     };
-// };
 
 
 const deleteEmployee = (id) => async (dispatch) => {
